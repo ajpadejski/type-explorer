@@ -11,7 +11,12 @@ function loadGoogleFont(name) {
 }
 
 function parseHref(input) {
-  const m = input.match(/href=["']([^"']+)["']/) || input.match(/@import\s+url\(["']?([^"')]+)["']?\)/);
+  // Prefer <link rel="stylesheet" href="..."> — attribute order in either direction
+  const stylesheet =
+    input.match(/<link[^>]+rel=["']stylesheet["'][^>]*href=["']([^"']+)["']/) ||
+    input.match(/<link[^>]+href=["']([^"']+)["'][^>]*rel=["']stylesheet["']/);
+  if (stylesheet) return stylesheet[1];
+  const m = input.match(/@import\s+url\(["']?([^"')]+)["']?\)/);
   if (m) return m[1];
   return input.trim().startsWith("http") ? input.trim() : null;
 }
