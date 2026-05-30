@@ -2,3 +2,4 @@ node_modules
 dist
 type-explorer.jsx
 type-explorer-handoff-prompt.md
+.claude
